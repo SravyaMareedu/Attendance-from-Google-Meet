@@ -1,0 +1,72 @@
+import pandas as pd
+import webvtt
+xls_file = pd.ExcelFile('Meet Attendance 11_20_2020_Metal Forming.xlsx')  ## should be changed
+xls_file
+xls_file.sheet_names
+df1 = xls_file.parse('11202020 rzstgqyhbf') ##should be changed
+name_list_meet = df1['Participants'].tolist() 
+for i in range(0,len(name_list_meet)):
+    name_list_meet[i]=name_list_meet[i].upper()
+    name_list_meet[i] = name_list_meet[i].strip()
+print((name_list_meet))
+len(name_list_meet)
+vtt =  webvtt.from_sbv('20-11Chats.sbv')  ##should be changed
+vtt.save()
+chats= []
+Nam_roll = []
+for i in chats:
+    if ': 175' in i or ': 165' in i:
+        Nam_roll.append(i)
+roll = []
+name_list_chat = []
+for i in Nam_roll:
+    ind = i.index(':')
+    roll.append(i[ind+2:ind+8])
+    name_list_chat.append(i[:ind])
+for i in range(0,len(name_list_chat)):
+    name_list_chat[i]=name_list_chat[i].upper()
+print(name_list_chat)
+len(name_list_chat)
+xls_file = pd.ExcelFile('MF Attendance Names.xlsx')
+xls_file
+xls_file.sheet_names
+df2 = xls_file.parse('Sheet1')
+Names = df2['Student Name'].tolist() 
+for i in range(0,len(Names)):
+    Names[i] = Names[i].upper()
+##print((Names))
+print(Names)
+todays_atten=[]
+for i in Names:
+    if i =='KODAM ABHIGNA' or i=='RAFSHAN UL ATIK':
+        todays_atten.append('NA*')
+    elif i in name_list_meet or i in name_list_chat :
+        todays_atten.append('P')
+    else:
+        todays_atten.append('A')
+        
+todays_atten.append(' ')
+print(todays_atten)
+abs = 0
+pres = 0
+for i in todays_atten:
+    if i == 'A':
+        abs = abs+1
+    elif i == 'P':
+        pres = pres +1
+print(abs)
+print(pres)
+todays_atten.append(pres)
+todays_atten.append(abs)
+todays_atten.append(2)
+todays_atten.append(63)
+print(todays_atten)
+print(len(todays_atten))
+xls_file = pd.ExcelFile('Attendance.xlsx')
+xls_file
+xls_file.sheet_names
+df3 = xls_file.parse('Sheet1')
+df3
+print(len(df3['Student Name']))
+df3['20.11.2020'] = todays_atten   ## Date should be changed
+print(df3)
